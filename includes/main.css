@@ -1,0 +1,158 @@
+footer#pageFooter{
+	position: relative;
+	float: down;
+    background-color: #1E5C11;
+    box-shadow: 2px 0px 2px #aaaaaa;
+    color: white;
+    clear: both;
+    font-size: 10px;
+    margin: 20px auto;
+    padding: 1px;
+    text-align: center;
+    width: 98%;
+	bottom:0px;
+}
+
+#contents{
+    background-color: white;
+    float: right;
+}
+
+#log_in{
+	background-color: #1E5C11;
+    border-radius: 5px;
+    color: white;
+    margin: 180px auto;
+    padding: 10px;
+    text-align: center;
+    width: 400px;
+
+}
+
+#login_page{
+	height: 400px;
+}
+
+#register{
+	text-align:left;
+}
+
+#create_container{
+/*	min-width:1250px;*/
+	height:588px;	
+	margin-top:0px;
+	margin-bottom:0px;
+	margin-left:0px;
+	margin-right:0px;
+	z-index:99;
+}
+
+#left_content{
+	float:left;	
+	position:absolute;
+	margin-bottom:10px;
+}
+
+form #account{
+	float: left;
+}
+
+#catable{
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	width:65%;
+	border-collapse:collapse;
+	margin-left:30px; margin-top:15px; position: static;
+	}
+	
+#catable td, #catable th {
+	font-size:1em;
+	}
+
+#catable th {
+	font-size:1.2em;
+	text-align:center;
+	padding-top:5px;
+	padding-bottom:4px;
+	background-color:#ffffff;
+	color:#444444;
+	font-weight:bold;
+	}
+	
+#catable tr.label td {
+	background-color:#FFFCCF;
+	font-size:.8em;
+	text-align:center;
+	}
+
+#catable tr.note td {
+	font-size:.9em;
+	font-weight:bold;
+	/*text-align:center;*/
+	}
+	
+#rules{
+	float: right;
+	width: 35%;
+	min-height:570px;
+	border:2px solid #7B1113;
+	border-radius:7px;
+	position:relative;
+	z-index:-1;
+	margin-bottom:10px;
+	margin-right:20px; margin-top:20px;
+	text-align:center;
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+#rules li{
+	font-size: 1em;
+	text-align:left;
+	margin-right: 10px
+}
+
+#rules p{
+	margin-right: 10px;
+	margin-left: 10px;
+}	
+
+#home{
+	min-height: 550px;
+}
+
+a {
+	color:#0000AA;
+	font-size: 1.1em;
+} 
+
+#db_table{
+	margin:auto;
+	margin-top:50px;
+	/*border:3px solid #7b1113;*/
+	border:0px;
+	border-collapse:collapse;
+	text-align:center;
+	background-image: url("images/oblation.png");
+	color:#000;
+	font-weight:bold;
+}
+
+#db_table th{
+	color:#ffffff;
+	padding:10px;
+	font-size:13px;
+	border:0px;
+}
+#db_table tr{
+	border:0px;
+	/*background-color:#a5a8a8;*/
+}
+#db_table td{
+	border:0px;
+	padding:10px;
+	font-size:1.4em;
+	border-top:3px solid #baeab5;
+}
+#db_table tr:hover{
+	background-image: none;
+}
+
