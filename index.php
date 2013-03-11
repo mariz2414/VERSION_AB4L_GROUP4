@@ -1,3 +1,11 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>UPLB ONLINE AUCTION</title>
+	<link rel="stylesheet" type="text/css" href="includes/main.css" />
+</head>
+<body id = "body" style = "background-image:url('test.png');">
 <?php
 	session_start();
 	require_once('includes/header.html');

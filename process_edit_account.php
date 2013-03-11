@@ -5,8 +5,14 @@
 
 <body>
 <?php
-	echo "<a href='home.php'>HOME</a>&nbsp&nbsp&nbsp";
-	echo "Account Successfully Updated";
+	if(isset($_SESSION['username'])){
+		require_once('includes/connect.php');
+		require_once('includes/header.html');
+		require_once('includes/greeting.php');
+	}
+	else{
+		header('Location:index.php');
+	}
 	$connect1 = oci_connect("ONLINE AUCTION","uplbonlineauction");
 	if(!$connect1){
 		echo "NOT CONNECTED";

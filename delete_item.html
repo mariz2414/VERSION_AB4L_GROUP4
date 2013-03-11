@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>Delete Item</title>
+<?php
+	if(isset($_SESSION['username'])){
+		require_once('includes/connect.php');
+		require_once('includes/header.html');
+		require_once('includes/greeting.php');
+	}
+	else{
+		header('Location:index.php');
+	}
+?>
+<SCRIPT language="JavaScript">
+function checker()
+{
+    var value= confirm("Are you sure you want to delete this item?");
+	return value;
+}
+ </SCRIPT>
+
+</head>
+<center>
+
+		<form name="edit_item" action="delete_item.php" method="post">
+        	<table>
+            <tr> 
+            	<td><br /><br /> Enter Id: <br /><br /></td>
+                <td><input type="text" name="id" size="50" required='required'/> <br /><br /></td>
+            </tr>
+            <tr>
+            	<td><input type="Reset" Value="RESET"/></td><td><input type="submit" value="SUBMIT"/></td>
+            </tr>
+            </table>
+		</form>
+	</center>
+<body>
+
+</body>
+</html>

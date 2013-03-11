@@ -1,10 +1,9 @@
 <?php
 	session_start();
 	require_once('includes/connect.php');
-	require_once('includes/header.html');
 	
 	function insert($query){	
-		$connect = oci_connect('ONLINE AUCTION','uplbonlineauction') or	die('Could not connect to Oracle: ' . oci_error());
+		$connect = oci_connect(WORKSPACE,PASSWORD) or	die('Could not connect to Oracle: ' . oci_error());
 		$stid = oci_parse($connect, $query);
 		$r = oci_execute($stid);
 	}
@@ -83,10 +82,22 @@
 
 <body>
 	<?php
+		oci_error());
+		$stid = oci_parse($connect, "select BANNED from ACCOUNT where (username = '".$_SESSION['username']."')");
+		$r = oci_execute($stid);
+		
+		$row = oci_fetch_row($stid);
+		
+		if($row[0] == 1){
+			$_SESSION['flag'] = 1;
+			header('Location:home.php');
+		}
+	?>
+	<?php
 		if ((!isSet($_GET['page']) || $_GET['page'] == 'home') && !isset($_POST['submit'])){
 		
 		$search = $_POST['id'];
-		$connect1 = oci_connect("ONLINE AUCTION","uplbonlineauction");
+		$connect1 = oci_connect(WORKSPACE,PASSWORD);
 		$query = "SELECT * FROM ITEM where Id = '$search'";
 		$whole = oci_parse($connect1, $query);
 		oci_execute($whole, OCI_DEFAULT);

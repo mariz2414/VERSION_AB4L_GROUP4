@@ -7,9 +7,7 @@
 </head>
 
 <?php
-	require_once('includes/connect.php');
-	require_once('includes/header.html');
-	
+	require_once('includes/connect.php');	
 	
 	function insert($query){	
 		$connect = oci_connect('ONLINE AUCTION','uplbonlineauction') or	die('Could not connect to Oracle: ' . oci_error());
@@ -372,7 +370,8 @@
 			move_uploaded_file($_FILES['the_file']['tmp_name'],"images/".$file_name);
 
 			if(!checkExistencePK($_POST['studnum'],'ACCOUNT')){
-				insert("Insert into ACCOUNT (Username, Lname, Fname, Mname, Email, Password, Stars, Reports) values ('".$_POST['studnum']."','".$_POST['lname']."','".$_POST['fname']."','".$_POST['mname']."','".$_POST['emailadd']."','".(md5($_POST['pw']))."',0,0)");
+				insert("Insert into ACCOUNT (Username, Lname, Fname, Mname, Email, Password, Stars, Reports, Banned) values ('".$_POST['studnum']."','".$_POST['lname']."','".$_POST['fname']."','".$_POST['mname']."','".$_POST['emailadd']."','".(md5($_POST['pw']))."',0,0,0)");
+				
 				if(isSet($_POST['mobile_no'])){	
 					insert("update ACCOUNT set Mobile_num = '".$_POST['mobile_no']."' where Username = '".$_POST['studnum']."'");
 				}
@@ -387,7 +386,9 @@
 				}
 				if(!empty($_FILES['the_file']['name'])){
 					insert("update ACCOUNT set Photo = '".$file_name."' where Username = '".$_POST['studnum']."'");
-					//mysql_query("insert into item(name,price,image,tagline) values('$item_name','$item_price','$file_name', '$tagline') ");
+				}
+				else{
+					insert("update ACCOUNT set Photo = 'default.jpeg' where Username = '".$_POST['studnum']."'");			
 				}
 			}
 			else{

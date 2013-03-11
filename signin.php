@@ -18,6 +18,7 @@
 				$_SESSION['fname'] = $user_detail['FNAME'];
 				$_SESSION['lname'] = $user_detail['LNAME'];
 				$found=true;
+				$_SESSION['flag'] = 1;
 			}elseif($user_detail['PASSWORD']==$password){
 				$found=true;
 			}
@@ -26,10 +27,6 @@
 		
 	if($found==false){
 		echo "<script>alert('Username was not found or password did not match.'); window.location = 'index.php' </script>";
-		//$errors[]="Username was not found or password did not match.";
-		//$_SESSION['errors']=$errors;
-		//session_write_close();
-		//header('Location: index.php');
 		exit();
 	}elseif($found==true){
 		$_SESSION['username'] = $username;

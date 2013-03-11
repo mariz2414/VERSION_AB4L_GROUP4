@@ -1,17 +1,20 @@
 <?php
 	session_start();
-	require_once('includes/connect.php');
-	require_once('includes/header.html');
-	require_once('includes/greeting.php');
+	if(isset($_SESSION['username'])){
+		require_once('includes/connect.php');
+		require_once('includes/header.html');
+	}
+	else{
+		header('Location:index.php');
+	}
 	
 	function insert($query){	
-		$connect = oci_connect('ONLINE AUCTION','uplbonlineauction') or	die('Could not connect to Oracle: ' . oci_error());
+		$connect = oci_connect(WORKSPACE,PASSWORD) or	die('Could not connect to Oracle: ' . var_dump(oci_error())); 
 		$stid = oci_parse($connect, $query);
-		$r = oci_execute($stid);
+		$r = oci_execute($stid) or die ('error: ' . var_dump(oci_error()));
 	}
 	
 	function view($query){
-		$connect = oci_connect('ONLINE AUCTION','uplbonlineauction') or	die('Could not connect to Oracle: ' . oci_error());
 		$stid = oci_parse($connect, $query);
 		$r = oci_execute($stid);
 
@@ -27,9 +30,22 @@
 	}
 ?>
 
+
 <body>
 	<?php
-		if ((!isSet($_GET['page']) || $_GET['page'] == 'home') && !isset($_POST['submit'])){
+
+	$stid = oci_parse($connect, "select BANNED from ACCOUNT where (username = '".$_SESSION['username']."')");
+		$r = oci_execute($stid);
+		
+		$row = oci_fetch_row($stid);
+		
+		if($row[0] == 1){
+			$_SESSION['flag'] = 1;
+			header('Location:home.php');
+		}
+	
+
+	if ((!isSet($_GET['page']) || $_GET['page'] == 'home') && !isset($_POST['submit'])){
 	?>
 	<form name="addItem" action = "add_item.php?page=success" onsubmit="return validateForm();" method="POST" enctype="multipart/form-data">
 		<table>
@@ -48,6 +64,26 @@
 			<tr>
 				<td><label for="fname">Price</label> </td>
 				<td class="alt"><input type="number" min="1" max="100000" id="itemPrice" name="itemPrice" placeholder="price" required="required" size="30"></td>
+			</tr>
+			<tr>
+				<td>Category:</td>
+				<td>
+					<select name="category">
+						<option value="apparel">Apparel</option>
+						<option value="appliances">Appliances</option>
+						<option value="art">Art</option>
+						<option value="books_handouts">Books and Handouts</option>
+						<option value="cars">Cars</option>
+						<option value="furnitures">Furnitures</option>
+						<option value="gadgets">Gadgets</option>
+						<option value="memorabilia">Memorabilia</option>
+						<option value="others">Others</option>
+						<option value="pet">Pet</option>
+						<option value="pet_care">Pet Care</option>
+						<option value="school_supplies">School Supplies</option>
+						<option value="toys">Toys</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td>Upload Photo</td>
@@ -72,39 +108,19 @@
 			</tr>
 		</table>
 	</form>
-	<a href="home.php"> Back to home </a>
 	<?php } ?>
 	<?php
 	
 	$user;
-	$connect2 = oci_connect('ONLINE AUCTION','uplbonlineauction') or	die('Could not connect to Oracle: ' . oci_error());
 	
-	oci_commit($connect2);
-	$stid2 = oci_parse($connect2, "Select * from ITEM");
-	 oci_execute($stid2);
-	$row2 = oci_fetch_assoc($stid2);
-	
-	$count = 0;
-	while($row2 = oci_fetch($stid2)){
-		$count = $count +1;
-	}
-	$count +=100;
-	echo $count;
 	//inserting into database
-		if(isSet($_POST['create'])&&isSet($_POST['itemName'])&&isSet($_POST['itemPrice'])&&isSet($_POST['itemDescription'])){
+		if(isSet($_POST['create'])&&isSet($_POST['itemName'])&&isSet($_POST['itemPrice'])&&isSet($_POST['itemDescription'])&&!empty($_FILES['the_file']['name'])){
 			$file_name = htmlspecialchars($_FILES['the_file']['name']);
-			//move_uploaded_file($_FILES['the_file']['tmp_name'],"itemImages/".$file_name);
-			echo 'Item Now in Sale!!!!';
-			//insert("Select from ITEM *");
-			insert("Insert into ITEM (Name, Description, Price, ID) values ('".$_POST['itemName']."','".$_POST['itemDescription']."','".$_POST['itemPrice']."', {$count})");
-			print 'Item Now in Sale!!';
-			if(!empty($_FILES['the_file']['name'])){
-				//insert("update ITEM set Photo = '".$file_name."' where ID = '".$_POST['studnum']."'");
-				//mysql_query("insert into item(name,price,image,tagline) values('$item_name','$item_price','$file_name', '$tagline') ");
-				
-			}
+			move_uploaded_file($_FILES['the_file']['tmp_name'],"itemImages/".$file_name);
+			insert("Insert into ITEM (Name, Description, Price, ID, Photo, Category, Owner, Notification, boughtby,FINISHEDRATING) 
+			values ('".$_POST['itemName']."','".$_POST['itemDescription']."','".$_POST['itemPrice']."', ITEM_NUM.nextval,'".$file_name."', '".$_POST['category']."', '".$_SESSION['username']."', 'false', '-', 0)");
 		}
-		
+
 		//printing details item
 		if (isSet($_GET['page']) && $_GET['page'] == 'success'){
 			print 'Item Now in Sale!';
